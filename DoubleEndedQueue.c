@@ -30,8 +30,8 @@ void main()
 			case 1: Insert(&Q),Display(Q);break;
 			case 2 : Delete(&Q),Display(Q);break;
 			case 3: Display(Q);break;
-case 4: InsertFront(&Q);Display(Q);break;
-case 5: DeleteRear(&Q);Display(Q);break;
+			case 4: InsertFront(&Q);Display(Q);break;
+			case 5: DeleteRear(&Q);Display(Q);break;
 			default : exit(0); 
 		}
 	}
@@ -55,17 +55,15 @@ void Delete(QUE * PQ)
 {
 	if(PQ ->F > PQ->R)
 	{
-		printf("Empty \n");
-		
+		printf("Empty \n"); return;	
 	}
 	printf("Deleted is %d\n",PQ->item[PQ->F]);
 	PQ->F++;
 	
 	if(PQ->F > PQ->R)
 	{
-	PQ->F = 0;
-	PQ->R = -1;
-	
+		PQ->F = 0;
+		PQ->R = -1;
 	}
 }
 
