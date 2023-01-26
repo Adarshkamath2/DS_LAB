@@ -6,12 +6,9 @@
 struct node
 {
 	int info;
-struct node *link;
+	struct node *link;
 };
-
 typedef struct node *NODE;
-
-
 
 NODE InsertFront(NODE);
 NODE CreateNode();
@@ -28,95 +25,70 @@ NODE sort(NODE);
 NODE Copy(NODE);
 NODE Reverse(NODE);
 
-
 int N=0;
 NODE SN;
+
 void main()
 {
-NODE First = NULL;
-NODE copy;
-int ch;
-for(;;)
-{
-printf("\n---------------------\nEnter Your Choice for Operation : \n1.Insert Front\n2.Display\n3.Insert Rear\n4.Delete Front\n5.Delete Rear\n6.Search by value\n7.Insert By Position\n8.Insert By order\n9.Delete  By Key\n10.Delete By Pos\n11.Sort\n12.Copy\n13.Reverse\n0.Exit\n------------------------------\n");
-scanf("%d",&ch);
+	NODE First = NULL;
+	NODE copy;
+	int ch;
+	for(;;)
+	{
+		printf("\n---------------------\nEnter Your Choice for Operation : \n1.Insert Front\n2.Display\n3.Insert Rear\n4.Delete Front\n5.Delete Rear\n6.Search by value\n7.Insert By Position\n8.Insert By order\n9.Delete  By Key\n10.Delete By Pos\n11.Sort\n12.Copy\n13.Reverse\n0.Exit\n------------------------------\n");
+		scanf("%d",&ch);
 
-switch(ch)
-{
-case 0: exit (0);
-break;
-case 1: First = InsertFront(First);Display(First);
-break;
-case 2: Display(First);
-break;
-case 3:First = InsertRear(First);Display(First);
-break;
-case 4:First = DeleteFront(First);Display(First);
-break;
-case 5:First = DeleteRear(First);Display(First);
-break;
-case 6: SN = SearchByValue(First);
-	if(SN == NULL)
-	printf("NOT FOUND...\n");
-	else
-	printf("Node info is : %d",SN->info);
-	break;
-case 7:First = InsertByPos(First);Display(First);
-break;
-case 8:First = InsertByOrder(First);Display(First);
-break;
-case 9:First = DeleteByKey(First);Display(First);
-break;
-case 10:First = DeleteByPos(First);Display(First);
-break;
-case 11:First = sort(First);Display(First);
-break;
-case 12:copy = Copy(First);Display(copy);
-break;
-case 13:copy = Reverse(First);Display(copy);
-break;
-default : printf("Invalid Choice... Try again\n");
-break;
-
-
-
-
-}
-
-}
-
+		switch(ch)
+		{
+			case 0: exit (0);break;
+			case 1: First = InsertFront(First);Display(First);break;
+			case 2: Display(First);break;
+			case 3: First = InsertRear(First);Display(First);break;
+			case 4: First = DeleteFront(First);Display(First);break;
+			case 5: First = DeleteRear(First);Display(First);break;
+			case 6: SN = SearchByValue(First);
+					if(SN == NULL)
+					printf("NOT FOUND...\n");
+					else
+					printf("Node info is : %d",SN->info);
+					break;
+			case 7: First = InsertByPos(First);Display(First);break;
+			case 8: First = InsertByOrder(First);Display(First);break;
+			case 9: First = DeleteByKey(First);Display(First);break;
+			case 10:First = DeleteByPos(First);Display(First);break;
+			case 11:First = sort(First);Display(First);break;
+			case 12:copy = Copy(First);Display(copy);break;
+			case 13:copy = Reverse(First);Display(copy);break;
+			default : printf("Invalid Choice... Try again\n");break;
+		}
+	}
 }
 
 NODE InsertFront(NODE pf)
 {
-NODE NN;
-NN = CreateNode();
-printf("Enter the Node Info : ");
-scanf("%d",&NN->info);
+	NODE NN;
+	NN = CreateNode();
+	printf("Enter the Node Info : ");
+	scanf("%d",&NN->info);
 
-NN->link = pf;
-pf = NN;
-N++;
-return pf;
+	NN->link = pf;
+	pf = NN;
+	N++;
+	return pf;
 }
 
 NODE CreateNode()
 {
-NODE NN;
-NN = (NODE)malloc(sizeof(struct node));
-return NN;
+	NODE NN = (NODE)malloc(sizeof(struct node));
+	return NN;
 }
-
-
 
 void Display(NODE pf)
 {
 	if(pf == NULL)
 	{
-		printf("The List is Empty.... Try Inserting an element :)\n");
-		return;
+		printf("The List is Empty.... Try Inserting an element :)\n");return;
 	}
-
 	while (pf !=NULL)
 	{
 		printf("%d\t",pf->info);
@@ -128,7 +100,6 @@ NODE InsertRear(NODE pf)
 {
 	NODE NN,LN;
 	NN = CreateNode();
-
 	printf("Enter the Data of the Node : ");
 	scanf("%d",&NN->info);
 
@@ -138,11 +109,9 @@ NODE InsertRear(NODE pf)
 	 	return NN;
 	while(LN->link != NULL)
 		LN = LN->link;
-
 	LN->link = NN;
 	N++;
 	return pf;
-
 }
 
 NODE DeleteFront(NODE pf)
@@ -150,10 +119,8 @@ NODE DeleteFront(NODE pf)
 	NODE FN;
 	if(pf == NULL)
 	{
-		printf("List is empty....Try Inserting a value\n");
-		return NULL;
+		printf("List is empty....Try Inserting a value\n");return NULL;
 	}
-
 	FN = pf;
 	pf = pf->link;
 
@@ -168,10 +135,8 @@ NODE DeleteRear(NODE pf)
 	NODE LN,PLN;
 	if(pf == NULL)
 	{
-	printf("List is Empty.... Try Inserting a VAlue :) \n");
-	return NULL;
+		printf("List is Empty.... Try Inserting a VAlue :) \n");return NULL;
 	}
-
 	LN = pf;
 	PLN = NULL;
 	while(LN->link != NULL)
@@ -184,14 +149,11 @@ NODE DeleteRear(NODE pf)
 	free(LN);
 	if(PLN!=NULL)
 	{
-		PLN -> link = NULL;
-		return pf;
-	} else
+		PLN -> link = NULL;return pf;
+	} 
+	else
 		return NULL;
-
 }
-
-
 
 NODE SearchByValue(NODE pf)
 {
@@ -201,8 +163,7 @@ NODE SearchByValue(NODE pf)
 
 	if(pf == NULL)
 	{
-		printf("List is Empty.... Try Inserting a VAlue :) \n");
-		return NULL;
+		printf("List is Empty.... Try Inserting a VAlue :) \n");return NULL;
 	}
 	while(pf!=NULL)
 	{
@@ -212,8 +173,6 @@ NODE SearchByValue(NODE pf)
 	}
 	return pf;	
 }
-
-
 
 NODE InsertByPos(NODE pf)
 {
@@ -242,21 +201,16 @@ NODE InsertByPos(NODE pf)
 	N++;
 	if(PN == NULL)
 	{
-		NN->link = TP;
-		return NN;
-
+		NN->link = TP; return NN;
 	}
-
 	NN->link = TP;
 	PN->link = NN;
 	return pf;
-
 }
 
 NODE InsertByOrder(NODE pf)
 {
 	NODE NN,TP,PN;
-
 	NN = CreateNode();
 
 	printf("Enter the Value :  ");
@@ -273,14 +227,10 @@ NODE InsertByOrder(NODE pf)
 	}
 	NN->link = TP;
 	N++;
-	if(PN == NULL)
-		return NN;
-
+	if(PN == NULL) return NN;
 	PN->link = NN;
 	return pf;
-
 }
-
 
 NODE DeleteByKey(NODE pf)
 {
@@ -323,8 +273,6 @@ NODE DeleteByPos(NODE pf)
 			printf("The List is Empty.... Try Inserting an element :)\n");
 			return NULL;
 		}
-
-
 	l1: printf("Enter the Position from 1 to %d : ",N);
 	scanf("%d",&pos);
 	if(pos < 1 || pos > N+1) goto l1;
@@ -343,7 +291,6 @@ NODE DeleteByPos(NODE pf)
 		pf = pf->link;
 	else
 		PN->link = ND->link;
-
 
 	printf("%d is Deleted ....\n",ND->info);
 	free(ND);
@@ -390,19 +337,15 @@ NODE Copy(NODE pf)
 	pf = pf->link;
 	while(pf!=NULL)
 	{
-	NN = CreateNode();
-	cpy =NN;
-	cpy->info = pf->info;
-	cpy->link = pf->link;
-	pf = pf->link;
+		NN = CreateNode();
+		cpy =NN;
+		cpy->info = pf->info;
+		cpy->link = pf->link;
+		pf = pf->link;
 	}
-
 	cpy->link = NULL;
 	return ccpy;
-
-
 }
-
 
 NODE Reverse(NODE pf)
 {
@@ -410,10 +353,8 @@ NODE Reverse(NODE pf)
 	NODE NN,rev;
 	if(pf == NULL)
 	{
-		printf("List is Empty...\n");
-		return NULL;
+		printf("List is Empty...\n");return NULL;
 	}
-	
 	NN = CreateNode();
 	rev = NN;
 	rev->info = pf->info;
@@ -430,4 +371,3 @@ NODE Reverse(NODE pf)
 	}
 	return rev;
 }
-
