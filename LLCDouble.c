@@ -9,7 +9,6 @@ struct node
 	struct node *LL;
 	struct node *RL;
 };
-
 typedef struct node *NODE;
 
 void InsertFront(NODE);
@@ -26,7 +25,6 @@ void DeleteByPos(NODE);
 NODE Reverse(NODE);
 NODE Copy(NODE);
 
-
 void main()
 {
 	NODE Head,cop,SN;
@@ -42,45 +40,27 @@ void main()
 
 		switch(ch)
 		{
-		case 0: exit (0);
-			break;
-		case 1:InsertFront(Head);Display(Head);
-			break;
-		case 2: Display(Head);
-			break;
-		case 3:InsertRear(Head);Display(Head);
-			break;
-		case 4:DeleteFront(Head);Display(Head);
-			break;
-		case 5:DeleteRear(Head);Display(Head);
-			break;
-		case 6: SN = SearchByValue(Head);
-			if(SN == NULL)
-			printf("NOT FOUND...\n");
-			else
-			printf("Node info is : %d",SN->info);
-			break;
-		case 7:InsertByPos(Head);Display(Head);
-			break;
-		case 8:InsertByOrder(Head);Display(Head);
-			break;
-		case 9:DeleteByKey(Head);Display(Head);
-			break;
-		case 10:DeleteByPos(Head);Display(Head);
-			break;
-		case 11:cop = Copy(Head);Display(cop);
-			break;
-		case 12:Head =  Reverse(Head);Display(Head);
-			break;
-
-		default : printf("Invalid Choice... Try again\n");
-			break;
-
-
+		case 0 : exit (0);break;
+		case 1 : InsertFront(Head);Display(Head);break;
+		case 2 : Display(Head);break;
+		case 3 : InsertRear(Head);Display(Head);break;
+		case 4 : DeleteFront(Head);Display(Head);break;
+		case 5 : DeleteRear(Head);Display(Head);break;
+		case 6 : SN = SearchByValue(Head);
+				 if(SN == NULL)
+				 	printf("NOT FOUND...\n");
+				 else
+				 	printf("Node info is : %d",SN->info);
+				 break;
+		case 7 : InsertByPos(Head);Display(Head);break;
+		case 8 : InsertByOrder(Head);Display(Head);break;
+		case 9 : DeleteByKey(Head);Display(Head);break;
+		case 10: DeleteByPos(Head);Display(Head);break;
+		case 11: cop = Copy(Head);Display(cop);break;
+		case 12: Head =  Reverse(Head);Display(Head);break;
+		default: printf("Invalid Choice... Try again\n");break;
 		}
-
 	}
-
 }
 
 void InsertFront(NODE pH)
@@ -94,17 +74,15 @@ void InsertFront(NODE pH)
 	NN->RL = pH->RL;
 	pH->RL = NN;
 	NN->RL->LL = NN;
-
 	pH->info++;
-
 }
 
 NODE CreateNode()
 {
-	NODE NN;
-	NN = (NODE)malloc(sizeof(struct node));
+	NODE NN = (NODE)malloc(sizeof(struct node));
 	return NN;
 }
+
 void Display(NODE PH)
 {
 	if(PH->info == 0)
@@ -112,12 +90,11 @@ void Display(NODE PH)
 		printf("The List is Empty...please try Inserting an Element..\n");
 		return;
 	}
-
 	NODE TP = PH->RL;
 	while(TP!=PH)
 	{
-	printf("%d\t",TP->info);
-	TP = TP->RL;
+		printf("%d\t",TP->info);
+		TP = TP->RL;
 	}
 }
 
@@ -137,25 +114,21 @@ void DeleteFront(NODE PH)
 {
 	if(PH->info == 0)
 	{
-		printf("Empty List .. \n");
-		return;
+		printf("Empty List .. \n");return;
 	}
 	NODE FN;
 	FN = PH->RL;
 	PH->RL = FN-> RL;
 	FN->RL->LL = PH;
 	printf("Deleted is %d..\n",FN->info);
-	free(FN);
-	PH->info--;
+	free(FN);PH->info--;
 }
-
 
 void DeleteRear(NODE PH)
 {
 	if(PH->info == 0)
 	{
-		printf("Empty List....\n");
-		return;
+		printf("Empty List....\n");return;
 	}
 	NODE LN;
 	LN = PH->LL;
@@ -185,13 +158,11 @@ void InsertByPos(NODE PH)
 	TP = TP->RL;
 	cnt++;
 	}
-
 	NN->LL = TP->LL;
 	NN->RL = TP;
 	NN->LL->RL = NN;
 	TP->LL = NN;
 }
-
 
 NODE SearchByValue(NODE PH)
 {
@@ -199,23 +170,16 @@ NODE SearchByValue(NODE PH)
 	NODE TP;
 	if(PH->info == 0)
 	{
-		printf("Empty \n");
-		return NULL;
+		printf("Empty \n");return NULL;
 	}
 	printf("Enter the Key Value : ");
 	scanf("%d",&key);
 	TP = PH->RL;
 	while(TP!=PH && TP->info!=key)
 		TP = TP->RL;
-	if(TP == PH)
-	{
-		return NULL;
-	}
+	if(TP == PH) return NULL;
 	return TP;
 }
-
-
-
 
 void DeleteByKey(NODE PH)
 {
@@ -223,10 +187,8 @@ void DeleteByKey(NODE PH)
 	int key;
 	if(PH->info == 0)
 	{
-		printf("Empty \n");
-		return;
+		printf("Empty \n"); return;
 	}
-
 	printf("Enter the Key Value : ");
 	scanf("%d",&key);
 	TP = PH->RL;
@@ -234,8 +196,7 @@ void DeleteByKey(NODE PH)
 		TP = TP->RL;
 	if(TP == PH)
 	{
-		printf("Not Found..\n");
-		return;
+		printf("Not Found..\n"); return;
 	}
 	TP->LL->RL = TP ->RL;
 	TP->RL->LL = TP->LL;
@@ -250,8 +211,7 @@ void DeleteByPos(NODE PH)
 	int pos,cnt;
 	if(PH->info == 0)
 	{
-		printf("Empty List \n");
-		return;
+		printf("Empty List \n"); return;
 	}
 	l1:printf("Enter The Position between 1 to %d\n",PH->info);
 	scanf("%d",&pos);
@@ -297,7 +257,6 @@ void InsertByOrder(NODE PH)
 	TP = PH->RL;
 	while(TP!=PH && TP->info < NN->info)
 		TP = TP->RL;
-
 	NN->LL = TP->LL;
 	NN->RL = TP;
 	NN->LL->RL = NN;
@@ -327,5 +286,3 @@ NODE Copy(NODE PH)
 	cpy->LL = NN;
 	return cpy;
 }
-
-
