@@ -1,256 +1,103 @@
 /*
-PROGRAM 4,6,8
-Implement circular double linked list to perform the following operations 
-i) Insert by order 
-ii ) Delete by key 
-iii) Search by position
-iv) Insert front 
-v) Insert rear
-vi) Delete kth node 
-vii) Search for an item by value. 
-viii) Insert by order 
-ix) Delete rear 
-x) Delete Front 
-Display the list contents after each operation
+PROGRAM-1a
+Define a structure called Student with the members: Name, Reg_no, marks in 3 tests and average_ marks.
+Develop a menu driven program to perform the following by writing separate function for each operation: 
+a) read information of N students 
+b) display student’s information 
+c) to calculate the average of best two test marks of each student.
+Note: Allocate memory dynamically and illustrate the use of pointer to an array of structure.
 */
-
 #include<stdio.h>
 #include<stdlib.h>
 
-struct node
+struct student
 {
-	int info;
-	struct node *LL;
-	struct node *RL;
+	int reg_no;
+	int M[3];
+	char Name[10];
+	float Avg;
 };
-typedef struct node *NODE;
+typedef struct student STD;
 
-NODE CreateNode();
-void Display(NODE);
-void InsertFront(NODE);
-void InsertRear(NODE);
-void DeleteFront(NODE);
-void DeleteRear(NODE);
-void InsertByPos(NODE);
-void InsertByOrder(NODE);
-NODE SearchByValue(NODE);
-void DeleteByKey(NODE);
-void DeleteByPos(NODE);
+void Read(STD*);
+void Disp(STD*);
+void Average(STD*);
 
+int SIZE,N;
 
 void main()
 {
-	NODE Head,cop,SN;
-	Head = CreateNode();
-	Head->info = 0;
-	Head->LL = Head->RL = Head;
-
 	int ch;
+	STD *p;
+	printf("SIZE : ");
+	scanf("%d",&SIZE);
+
+	p = (STD*)malloc(SIZE* sizeof(STD));
+
 	for(;;)
 	{
-		printf("\n---------------------\nEnter Your Choice for Operation : \n1.Insert Front\n2.Display\n3.Insert Rear\n4.Delete Front\n5.Delete Rear\n6.Search by value\n7.Insert By Position\n8.Insert By order\n9.Delete  By Key\n10.Delete By Pos\n0.Exit\n------------------------------\n");
-		scanf("%d",&ch);
+        printf("Enter the Choice \n1.Read\n2.Display\n");
+        scanf("%d",&ch);
 
-		switch(ch)
-		{
-		case 0 : exit (0);break;
-		case 1 : InsertFront(Head);Display(Head);break;
-		case 2 : Display(Head);break;
-		case 3 : InsertRear(Head);Display(Head);break;
-		case 4 : DeleteFront(Head);Display(Head);break;
-		case 5 : DeleteRear(Head);Display(Head);break;
-		case 6 : SN = SearchByValue(Head);
-				 if(SN == NULL)
-				 	printf("NOT FOUND...\n");
-				 else
-				 	printf("Node info is : %d",SN->info);
-				 break;
-		case 7 : InsertByPos(Head);Display(Head);break;
-		case 8 : InsertByOrder(Head);Display(Head);break;
-		case 9 : DeleteByKey(Head);Display(Head);break;
-		case 10: DeleteByPos(Head);Display(Head);break;
-		default: printf("Invalid Choice... Try again\n");break;
-		}
-	}
-}
-
-NODE CreateNode()
-{
-    return (NODE)malloc(sizeof(struct node));
-}
-
-void Display(NODE PH)
-{
-    if(PH->info==0)
-    {
-        printf("Empty List..."); return;        
-    }
-    NODE TP = PH->RL;
-    while(TP != PH)
-    {
-        printf("%d\t",TP->info);
-        TP = TP->RL;
+        switch(ch)
+        {
+            case 1 : Read(p); break;
+            case 2 : Disp(p); break;
+            default: exit(0);
+        }
     }
 }
 
-void InsertFront(NODE PH)
+void Read(STD *s)
 {
-    NODE NN = CreateNode();
-    printf("Info : ");
-    scanf("%d",&NN->info);
-    NN->RL = PH->RL;
-    NN->LL = PH;
-    PH->RL = NN;
-    NN->RL->LL = NN;
-    PH->info++;
-}
+	int i,j;
+	printf("Number Of Students :");
+	scanf("%d",&N);
 
-void InsertRear(NODE PH)
-{
-    NODE NN = CreateNode();
-    printf("Info : ");
-    scanf("%d",&NN->info);
-
-    NN->LL = PH->LL;
-    NN->RL = PH;
-    PH->LL->RL = NN;
-    PH->LL = NN;
-    PH->info++;
-}
-
-void DeleteFront(NODE PH)
-{
-    if(PH->info == 0)
+	for(i=0;i<N;i++)
 	{
-		printf("Empty \n"); return;
+        printf("STUDENT DETAILS\n\nReg No : ");
+        scanf("%d",&(s+i)->reg_no);
+        printf("Name : ");
+        scanf("%s",(s+i)->Name);
+        printf("Test Marks of the student :\n");
+	    for(j=0;j<3;j++)
+	    {
+            printf("Test-%d : ",j+1);
+	        scanf("%d",&(s+i)-> M[j]);
+	    }
+	    Average(s);
 	}
-    NODE ND = PH->RL;
-    printf("Deleted : %d\n",ND->info);
-
-    PH->RL = ND->RL;
-    ND->RL->LL = PH;
-
-    free(ND);
-    PH->info--;
 }
 
-void DeleteRear(NODE PH)
+void Disp(STD *s)
 {
-    if(PH->info == 0)
+	int i,j;
+	printf("Reg No\tName\tTest1\tTest2\tTest3\tAverage of best 2\n");
+	printf("--------------------------------------------------------------------------\n");
+
+	for(i=0;i<N;i++)
 	{
-		printf("Empty \n"); return;
+	    printf("%d\t%s\t",(s+i)->reg_no,(s+i)->Name);
+        for(j=0;j<3;j++)
+            printf("%d\t",(s+i)-> M[j]);
+        printf("%f\n",(s+i)-> Avg);
 	}
-    NODE ND = PH->LL;
-    printf("Deleted : %d\n",ND->info);
-
-    PH->LL = ND->LL;
-    ND->LL->RL = PH;
-
-    free(ND);
-    PH->info--;
 }
 
-void InsertByPos(NODE PH)
+void Average(STD *s)
 {
-    int pos,count = 1;
-    NODE NN = CreateNode();
-    l1 : printf("Position : ");
-    scanf("%d",&pos);
-    if(pos < 1 || pos >= PH->info+1) { printf("Enter valid Position.."); goto l1; }    
-    printf("Info : ");
-    scanf("%d",&NN->info);
-
-    NODE TP = PH->RL;
-    while(TP!= PH && count != pos)
-    {
-        TP = TP->RL;
-        count++;
-    }
-    NN->RL = TP->RL;
-    NN->LL = TP;
-    TP->RL = NN;
-    NN->RL->LL = NN; 
-    PH->info++;
-}
-
-void DeleteByPos(NODE PH)
-{
-    if(PH->info == 0)
+	int i,j,sum = 0,min;
+	for(i=0;i<N;i++)
 	{
-		printf("Empty \n"); return;
+        min = (s+i)->M[0];
+        sum = min;
+        for(j=1;j<3;j++)
+	    {
+            sum = sum +(s+i)->M[j];
+            if((s+i)-> M[j] < min)
+            min = (s+i)-> M[j];
+        }
+        (s+i)-> Avg = (sum - min)/2.0;
 	}
-    int pos,count = 1;
-    NODE NN = CreateNode();
-    printf("Position : ");
-    scanf("%d",&pos);    
-
-    NODE TP = PH->RL;
-    while(TP!= PH && count != pos)
-    {
-        TP = TP->RL;
-        count++;
-    }
-    TP->LL->RL = TP->RL;
-    TP->RL->LL = TP->LL;
-    printf("Deleted : %d\n",TP->info);
-    free(TP); 
-    PH->info--;
-}
-
-void InsertByOrder(NODE PH)
-{
-    NODE NN = CreateNode();
-    printf("Info : ");
-    scanf("%d",&NN->info);
-
-    NODE TP = PH->RL;
-    while(TP!= PH && TP->info < NN->info)
-        TP = TP->RL;
-    NN->LL = TP->LL;
-    NN->RL = TP;
-    TP->LL = NN;
-    NN->LL->RL = NN;
-    PH->info++;
-}
-
-NODE SearchByValue(NODE PH)
-{
-	if(PH->info == 0)
-	{
-		printf("Empty \n");return NULL;
-	}
-	int key;
-	printf("Key Value : ");
-	scanf("%d",&key);
-	NODE TP = PH->RL;
-
-	while(TP!=PH && TP->info!=key)
-		TP = TP->RL;
-	if(TP == PH) return NULL;
-	return TP;
-}
-
-void DeleteByKey(NODE PH)
-{
-	if(PH->info == 0)
-	{
-		printf("Empty \n"); return;
-	}
-	int key;
-	printf("Enter the Key Value : ");
-	scanf("%d",&key);
-
-	NODE TP = PH->RL;
-	while(TP!=PH && TP->info!=key)
-		TP = TP->RL;
-	
-    if(TP == PH)
-	{
-		printf("Not Found..\n"); return;
-	}
-	TP->LL->RL = TP ->RL;
-	TP->RL->LL = TP->LL;
-	printf("Deleted : %d\n",PH->info);
-	free(TP);
-	PH->info--;
 }
