@@ -1,12 +1,13 @@
-//Menu Driven Program for Post and Prefix Evaluation
+/*
+PROGRAM-11
+Develop a menu driven program to evaluate postfix and prefix expressions using stack.
+*/
 
 #include<stdio.h>
 #include<math.h>
 #include<string.h>
 #include<stdlib.h>
 
-void evaluate(char[]);
-float compute(float,float,char);
 
 struct stk
 {
@@ -17,134 +18,130 @@ typedef struct stk STK;
 
 void push(float c,STK *s)
 {
-  if(s->top==19)
-   	printf("Stack full\n");
-  else 
-  	s->top++;
-   	s->item[s->top]=c;
+    if(s->top==19)
+   	    printf("Stack full\n");
+    else 
+   	    s->item[++s->top]=c;
 }
 
 float pop(STK *s)
 {
-  float c;
-  if(s->top==-1)
-   printf("Stack empty\n");
-  else
-   c=s->item[s->top];
-   s->top--;
-   return c;
+    float c;
+    if(s->top==-1)
+        printf("Stack empty\n");
+    else
+        return s->item[s->top--];
 }
 
 int isoperand(char c)
 {
- switch(c)
- {
-   case'+' :
-   case'-' :
-   case'*' :
-   case'/' :
-   case'(' : 
-   case')' :
-   case'$' :
-   case'^' : return 0;
-   default : return 1;
-}
-}
-
-void evaluate1(char po[])
-{
-		STK s;
-		char c;
-		float op1,op2,res;
-		int i=0;
-		s.top=-1;
-		while((c=po[i++])!='\0')
-		{
-			if(isoperand(c))
-			 push(c-'0',&s);
-			else
-			{
-				op2=pop(&s);
-				op1=pop(&s);
-				res=compute(op1,op2,c);
-				push(res,&s);
-			}
-		}
-		res=pop(&s);
-		if(s.top!=-1)
-		printf("Invalid expression\n");
-		else
-		printf("Value of expression is:%f\n",res);
+    switch(c)
+    {
+        case'+' :
+        case'-' :
+        case'*' :
+        case'/' :
+        case'(' : 
+        case')' :
+        case'$' :
+        case'^' : return 0;
+        default : return 1;
+    }
 }
 
-void evaluate2(char pre[])
+float Compute(float op1,float op2,char opr)
 {
-				STK s;
-				char c;
-				float op1,op2,res;
-				int i=0;
-				s.top=-1;
-				i=strlen(pre)-1;
-			// printf("%d\n",i);
-				while(i>=0) //SCAN EXPRESSION
-		 		{
-				 c=pre[i];
-				 if(isoperand(c))
-				 push(c-'0',&s);
-			 	 else
-				{
-				 op1=pop(&s);
-				 op2=pop(&s);
-				 res=compute(op1,op2,c);
-				 push(res,&s);
-				}
-			 		i--;
-		 		}
-				res=pop(&s);
-				if(s.top!=-1)
-				printf("Invalid Expression\n");
-				else
-				printf("Value of the expression is %f\n",res);
-}// END EVALUATE
+    switch(opr)
+    {
+        case '+' : return(op1+op2);
+        case '-' : return(op1-op2);
+        case '*' : return(op1*op2);
+        case '/' : return(op1/op2);
+        case '^' : return pow(op1,op2);
+        case '$' : return pow(op1,op2);
+        default : printf("invalid expression");
+    }
+}
 
-
-
-float compute(float op1, float op2, char opr)
+void PostEvaluate(char po[])
 {
-  switch(opr)
-  {
-     	case '+' : return(op1+op2);
-     	case '-' : return(op1-op2);
-      case '*' : return(op1*op2);
-      case '/' : return(op1/op2);
-			case '^' : return pow(op1,op2);
-      case '$' : return pow(op1,op2);
-      default : printf("invalid expression");
-  }
+    STK s;
+    s.top = -1;
+    int i = 0;
+    char c;
+    float op1,op2,res;
+
+    while((c = po[i++]) != '\0')
+    {
+        if(isoperand(c))
+            push(c -'0',&s);
+        else
+        {
+            op2 = pop(&s);
+            op1 = pop(&s);
+            res = Compute(op1,op2,c);
+            push(res,&s); 
+        }
+    }
+    res = pop(&s);
+    if(s.top != -1)
+        printf("Invalid Expression");
+    else
+        printf("Postfix Value : %.2f",res);          
+}
+
+void PreEvaluate(char pre[])
+{
+    STK s;
+    s.top = -1;
+    int i = 0;
+    char c;
+    float op1,op2,res;
+    i = strlen(pre) - 1;
+    while(i >= 0)
+    {
+        c = pre[i];
+        if(isoperand(c))
+            push(c-'0',&s);
+        else
+        {
+            op1 = pop(&s);
+            op2 = pop(&s);
+            res = Compute(op1,op2,c);
+            push(res,&s); 
+        }
+        i--;
+    }
+    res = pop(&s);
+    if(s.top != -1)
+        printf("Invalid Expression");
+    else
+        printf("Prefix Value : %.2f",res);          
 }
 
 void main()
 { 
-   char pos[30];
-   int ch;
-   for(;;)
-   { 
-     printf("-----------------------------------------------------------------\nEnter the choice\n1.evalpost\n2.evalpre\n0.To exit\n");
-     scanf("%d",&ch);
+    char fin[30];
+    int ch;
+    for(;;)
+    { 
+        printf("\n-----------------------------------------------------------------\n");
+        printf("Enter the choice\n1.PostFix Exaluation\n2.Prefix Evaluation\n0.Exit\n");
+        scanf("%d",&ch);
 
-     switch(ch)
-     {
-				case 1:	printf("enter the Postfix Expression\n");
-								scanf("%s",pos);
-								evaluate1(pos);
-								break;
-    		case 2:	printf("enter the Prefix Expression\n");
-								scanf("%s",pos);
-								evaluate2(pos);
-								break;
-			default : printf("Enter the valid choice");
-								break;
-     		case 0: exit(1);
-     }
-   }
+        switch(ch)
+        {
+            case 0: exit(0);
+            case 1:	printf("Postfix Expression : ");
+                    scanf("%s",fin);
+                    PostEvaluate(fin);
+                    break;
+            case 2:	printf("Prefix Expression : ");
+                    scanf("%s",fin);
+                    PreEvaluate(fin);
+                    break;
+            default:printf("Enter the valid choice...\n\n");
+                    break;
+        }
+    }
 }
